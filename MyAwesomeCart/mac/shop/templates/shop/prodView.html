@@ -1,0 +1,88 @@
+{% extends 'shop/basic.html' %}
+{% block title %} {{product.product_name}} -- My Awesome Cart{% endblock %}
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+
+{% block body %}
+  <div class="container my-4">
+     <div class="row">
+        <div class="col-md-4">
+           <div class="row">
+               <img src="/media//{{product.image}}" width="233px" height="250px">
+           </div>
+            <div class="row">
+                <button class="btn btn-primary mx-2"> Buy Now</button>
+                <button class="btn btn-primary mx-2 "> Add To Cart</button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h5>{{product.product_name}}</h5>
+            <p><b> Rs. {{product.price}}</b></p>
+            <p><span style="color:blue"> FREE DELIVERY: </span>{{product.free_delivery}}</p>
+            <p>Fastest Delivery: {{product.fastest_delivery}}</p>
+            <p>Order within {{product.order_within}}</p>
+            <hr>
+            <p>Available at a lower price from <span style="color:blue">other sellers</span> that may not offer free Prime shipping.</p>
+            <p><span style="color:green">In stock.</span></p>
+            <p>Sold by <span style="color:blue">Cloudtail India </span>and <span style="color:blue">Fulfilled by Amazon.</span></p>
+            <br/>
+            <p><b>EMI</b> starts at ₹711. No Cost EMI available </p>
+
+            <table style="width:100%">
+                <tr>
+                    <td><b><span style="color:firebrick">Save Extra</span></b> with 3 offers</td>
+                </tr>
+                <tr>
+                    <td><b><span style="color:firebrick">Bank Offer (3): </span></b>Flat Rs 3000 Instant Discount with SBI Credit Cards with purchases above Rs 1,00,000 </td>
+                </tr>
+                <tr>
+                    <td><b><span style="color:firebrick">No Cost EMI: </span></b> Avail No Cost EMI on select cards for orders above ₹3000</td>
+                </tr>
+            </table>
+
+            <hr>
+            <p><b>About this Item: </b></p>
+            <ul>
+                <li>
+            <p>{{product.desc}}</p>
+                </li>
+            </ul>
+        </div>
+     </div>
+  </div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+console.log('working');
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+else
+{
+cart = JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+$('.cart').click(function(){
+console.log('clicked');
+var idstr = this.id.toString();
+console.log(idstr);
+if (cart[idstr] !=undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else
+{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+$('#popcart').popover();
+document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+</script>
+{% endblock %}
